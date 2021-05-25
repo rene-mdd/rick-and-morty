@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 import {
-  Container,
-  Card,
-  Divider,
-  Header,
-  Table
+  Container, Card, Divider, Header, Table
 } from 'semantic-ui-react';
-import Loading from './loading';
-import Error from './error';
-import GET_EPISODE from '../graphql/queries/getEpisode';
+import Loading from '../loading';
+import Error from '../error';
+import GET_EPISODE from '../../graphql/queries/getEpisode';
 
-export default function Episode({ match }) {
+function Episode({ match }) {
   const episodeId = Number(match.params.id);
   const { loading, error, data } = useQuery(GET_EPISODE, {
     variables: { id: episodeId }
@@ -19,9 +16,11 @@ export default function Episode({ match }) {
 
   if (loading) {
     return <Loading />;
-  } if (error) {
+  }
+  if (error) {
     return <Error />;
-  } return (
+  }
+  return (
     <Container>
       {data ? (
         <Card centered>
@@ -39,9 +38,11 @@ export default function Episode({ match }) {
             {/* <p>Species <span style={{ color: '#CFAF7B' }}>{data.episode.species}</span></p> */}
           </Card.Content>
         </Card>
-      ) : <h1>Loading</h1>}
+      ) : (
+        <h1>Loading</h1>
+      )}
       <Container>
-        <Header as='h2'>Episodes</Header>
+        <Header as='h2'>Appearing characters</Header>
         <Table unstackable>
           <Table.Header>
             <Table.Row>
@@ -51,19 +52,28 @@ export default function Episode({ match }) {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            { data ? data.episode.characters.map((character) => (
-              <Table.Row key={character.id}>
-                <Table.Cell>{character.name}</Table.Cell>
-                <Table.Cell>{character.origin.name}</Table.Cell>
-                <Table.Cell>{character.species}</Table.Cell>
+            {data ? (
+              data.episode.characters.map((character) => (
+                <Table.Row key={character.id}>
+                  <Table.Cell>{character.name}</Table.Cell>
+                  <Table.Cell>{character.origin.name}</Table.Cell>
+                  <Table.Cell>{character.species}</Table.Cell>
+                </Table.Row>
+              ))
+            ) : (
+              <Table.Row>
+                <Table.Cell>Loading...</Table.Cell>
               </Table.Row>
-            )) : <Table.Row><Table.Cell>Loading...</Table.Cell></Table.Row>}
+            )}
           </Table.Body>
         </Table>
       </Container>
     </Container>
   );
 }
+
+const episodeWrapper = graphql(GET_EPISODE)(Episode);
+export default episodeWrapper;
 
 // PropTypes
 

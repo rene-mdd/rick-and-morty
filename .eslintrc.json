@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest":true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
   "parserOptions": {
@@ -20,9 +21,10 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-quotes": [2, "prefer-single"],
     "comma-dangle": ["error", "never"],
-    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "semi": ["warn", "always"],
     "react/jsx-one-expression-per-line": "off",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}]
+    "import/no-extraneous-dependencies": ["off", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}],
+    "react/jsx-props-no-spreading": "off",
+    "no-unused-vars": "off"
   }
 }

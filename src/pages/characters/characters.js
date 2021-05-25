@@ -1,14 +1,16 @@
-import { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import { useState, React } from 'react';
 import { useQuery } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 import {
   Table, Container, Button, Pagination, Icon
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Loading from './loading';
-import Error from './error';
-import GET_CHARACTERS from '../graphql/queries/getCharacters';
+import Loading from '../loading';
+import Error from '../error';
+import GET_CHARACTERS from '../../graphql/queries/getCharacters';
 
-export default function Characters() {
+function Characters() {
   const [page, setCurrentPage] = useState(1);
 
   const handlePaginationChange = (e, { activePage }) => {
@@ -21,9 +23,11 @@ export default function Characters() {
 
   if (loading) {
     return <Loading />;
-  } if (error) {
+  }
+  if (error) {
     return <Error />;
-  } return (
+  }
+  return (
     <Container>
       <Container>
         <Table celled selectable>
@@ -45,17 +49,20 @@ export default function Characters() {
                   <Table.Cell>{character.origin.name}</Table.Cell>
                   <Table.Cell>{character.location.name}</Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Link to={{
-                      pathname: `/character/${character.id}`,
-                      param: character.id
-                    }}
+                    <Link
+                      to={{
+                        pathname: `/character/${character.id}`,
+                        param: character.id
+                      }}
                     >
                       <Button primary>View</Button>
                     </Link>
                   </Table.Cell>
                 </Table.Row>
-              ))) : (
-                <p>Loading...</p>)}
+              ))
+            ) : (
+              <p>Loading...</p>
+            )}
           </Table.Body>
         </Table>
       </Container>
@@ -71,3 +78,6 @@ export default function Characters() {
     </Container>
   );
 }
+
+const charactersWrapper = graphql(GET_CHARACTERS)(Characters);
+export default charactersWrapper;

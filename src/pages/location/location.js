@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 import {
-  Container,
-  Card,
-  Divider,
-  Header,
-  Table
+  Container, Card, Divider, Header, Table
 } from 'semantic-ui-react';
-import Loading from './loading';
-import Error from './error';
-import GET_LOCATION from '../graphql/queries/getLocation';
+import Loading from '../loading';
+import Error from '../error';
+import GET_LOCATION from '../../graphql/queries/getLocation';
 
-export default function Location({ match }) {
+function Location({ match }) {
   const locationId = Number(match.params.id);
   const { loading, error, data } = useQuery(GET_LOCATION, {
     variables: { id: locationId }
@@ -19,9 +16,11 @@ export default function Location({ match }) {
 
   if (loading) {
     return <Loading />;
-  } if (error) {
+  }
+  if (error) {
     return <Error />;
-  } return (
+  }
+  return (
     <Container>
       {data ? (
         <Card centered>
@@ -39,7 +38,9 @@ export default function Location({ match }) {
             <p>Information</p>
           </Card.Content>
         </Card>
-      ) : <h1>Loading</h1>}
+      ) : (
+        <h1>Loading</h1>
+      )}
       <Container>
         <Header as='h2'>Residents</Header>
         <Table unstackable>
@@ -51,19 +52,32 @@ export default function Location({ match }) {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            { data ? data.location.residents.map((resident) => (
-              <Table.Row key={`${resident.name} ${resident.id}`}>
-                <Table.Cell>{resident.name}</Table.Cell>
-                <Table.Cell>{resident.species}</Table.Cell>
-                <Table.Cell><span style={{ color: resident.status !== 'Alive' ? '#FE2C54' : '#0CB577' }}>{resident.status}</span></Table.Cell>
+            {data ? (
+              data.location.residents.map((resident) => (
+                <Table.Row key={`${resident.name} ${resident.id}`}>
+                  <Table.Cell>{resident.name}</Table.Cell>
+                  <Table.Cell>{resident.species}</Table.Cell>
+                  <Table.Cell>
+                    <span style={{ color: resident.status !== 'Alive' ? '#FE2C54' : '#0CB577' }}>
+                      {resident.status}
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            ) : (
+              <Table.Row>
+                <Table.Cell>Loading...</Table.Cell>
               </Table.Row>
-            )) : <Table.Row><Table.Cell>Loading...</Table.Cell></Table.Row>}
+            )}
           </Table.Body>
         </Table>
       </Container>
     </Container>
   );
 }
+
+const locationWrapper = graphql(GET_LOCATION)(Location);
+export default locationWrapper;
 
 // PropTypes
 

@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 import {
   Table, Container, Button, Pagination, Icon
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Loading from './loading';
-import Error from './error';
-import GET_LOCATIONS from '../graphql/queries/getLocations';
+import Loading from '../loading';
+import Error from '../error';
+import GET_LOCATIONS from '../../graphql/queries/getLocations';
 
-export default function Locations() {
+function Locations() {
   const [page, setCurrentPage] = useState(1);
   const { loading, error, data } = useQuery(GET_LOCATIONS, {
     variables: { page }
@@ -20,9 +21,11 @@ export default function Locations() {
 
   if (loading) {
     return <Loading />;
-  } if (error) {
+  }
+  if (error) {
     return <Error />;
-  } return (
+  }
+  return (
     <Container>
       <Container className='menu'>
         <Table celled selectable>
@@ -43,15 +46,20 @@ export default function Locations() {
                   <Table.Cell>{location.dimension}</Table.Cell>
                   <Table.Cell>{location.type}</Table.Cell>
                   <Table.Cell textAlign='center'>
-                    <Link to={{
-                      pathname: `/location/${location.id}`,
-                      param: location.id
-                    }}
-                    ><Button primary>View</Button>
+                    <Link
+                      to={{
+                        pathname: `/location/${location.id}`,
+                        param: location.id
+                      }}
+                    >
+                      <Button primary>View</Button>
                     </Link>
                   </Table.Cell>
                 </Table.Row>
-              ))) : (<p>{loading && 'Loading'}</p>)}
+              ))
+            ) : (
+              <p>{loading && 'Loading'}</p>
+            )}
           </Table.Body>
         </Table>
       </Container>
@@ -67,3 +75,6 @@ export default function Locations() {
     </Container>
   );
 }
+
+const locationsWrapper = graphql(GET_LOCATIONS)(Locations);
+export default locationsWrapper;
