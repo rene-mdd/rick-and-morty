@@ -4,7 +4,7 @@ import { graphql } from '@apollo/client/react/hoc';
 import {
   Container, Card, Divider, Header, Table
 } from 'semantic-ui-react';
-import Loading from '../loading';
+import Loading from '../../components/loading/loading';
 import Error from '../error';
 import GET_LOCATION from '../../graphql/queries/getLocation';
 
@@ -65,9 +65,7 @@ function Location({ match }) {
                 </Table.Row>
               ))
             ) : (
-              <Table.Row>
-                <Table.Cell>Loading...</Table.Cell>
-              </Table.Row>
+              null
             )}
           </Table.Body>
         </Table>

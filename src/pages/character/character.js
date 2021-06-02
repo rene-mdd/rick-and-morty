@@ -4,7 +4,7 @@ import { graphql } from '@apollo/client/react/hoc';
 import {
   Container, Card, Image, Divider, Header, Table
 } from 'semantic-ui-react';
-import Loading from '../loading';
+import Loading from '../../components/loading/loading';
 import Error from '../error';
 import GET_CHARACTER from '../../graphql/queries/getCharacter';
 

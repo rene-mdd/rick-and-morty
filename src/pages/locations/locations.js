@@ -5,7 +5,7 @@ import {
   Table, Container, Button, Pagination, Icon
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Loading from '../loading';
+import Loading from '../../components/loading/loading';
 import Error from '../error';
 import GET_LOCATIONS from '../../graphql/queries/getLocations';
 
@@ -58,7 +58,7 @@ function Locations() {
                 </Table.Row>
               ))
             ) : (
-              <p>{loading && 'Loading'}</p>
+              null
             )}
           </Table.Body>
         </Table>

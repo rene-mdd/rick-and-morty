@@ -4,7 +4,7 @@ import { graphql } from '@apollo/client/react/hoc';
 import {
   Container, Card, Divider, Header, Table
 } from 'semantic-ui-react';
-import Loading from '../loading';
+import Loading from '../../components/loading/loading';
 import Error from '../error';
 import GET_EPISODE from '../../graphql/queries/getEpisode';
 
@@ -39,7 +39,7 @@ function Episode({ match }) {
           </Card.Content>
         </Card>
       ) : (
-        <h1>Loading</h1>
+        null
       )}
       <Container>
         <Header as='h2'>Appearing characters</Header>

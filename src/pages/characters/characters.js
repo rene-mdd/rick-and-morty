@@ -6,7 +6,7 @@ import {
   Table, Container, Button, Pagination, Icon
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Loading from '../loading';
+import Loading from '../../components/loading/loading';
 import Error from '../error';
 import GET_CHARACTERS from '../../graphql/queries/getCharacters';
 
@@ -61,7 +61,7 @@ function Characters() {
                 </Table.Row>
               ))
             ) : (
-              <p>Loading...</p>
+              null
             )}
           </Table.Body>
         </Table>
